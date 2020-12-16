@@ -163,11 +163,11 @@ if ( isset( $_REQUEST['modfunc'] )
 
 
 				if($students['B_PARENT_EMAIL'] >''){
-					$to = $students['A_PARENT_EMAIL'] . ';' . $students['B_PARENT_EMAIL'];
+					$to = $students['A_PARENT_EMAIL'] . ',' . $students['B_PARENT_EMAIL'];
 				}else{
 					$to = $students['A_PARENT_EMAIL'];
 				}
-				$to =  'gforkin@icaknights.org';/// Take no Chance.  $student['PARENT_EMAIL'];
+				
 
 				$reply_to = $cc = null;
 
@@ -228,7 +228,7 @@ if ( isset( $_REQUEST['modfunc'] )
 
 $cc='';
 						$result = SendEmail(
-						'gforkin@icaknights.org,lisa.forkin@icaknights.org',
+						$to,
 						$subject,
 						$msg,
 						$reply_to,
@@ -243,7 +243,7 @@ $cc='';
 					{
 					//	$error_email_list[] = $student['PARENT_NAME'] .
 					//		' (' . $student['PARENT_EMAIL'] . ')';
-						$error_email_list[] = $students['A_PARENT_NAME'] . ' OR ' . $students['B_PARENT_NAME'] . ' (gforkin@icaknights.org)';
+						$error_email_list[] = $students['A_PARENT_NAME'] . ' OR ' . $students['B_PARENT_NAME'] . ' ('. $students['A_PARENT_EMAIL'] . ' '.  $students['B_PARENT_EMAIL'] .')';
 					}
 				}
 				$i++;
