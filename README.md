@@ -91,8 +91,8 @@ That is on the template but you dont have to keep it on any new template. just u
 
 4. Modify your templates in the includes directory. 
          1. Called header.html -- holds the top first page header and the back page Comment Codes
-         2. maincourseblock.html is a Table Header it has %SKILL% which you can replace with the Subject the student is Scheduled for. This appends to the %COURSEMARKS% inside the header.html
-         3. marksrow.html is just a Row with cells that get a find and replace of %T#% (where # is 1, 2, 3, etc.). This will append to the Maincourseblock.html.
+         1. maincourseblock.html is a Table Header it has %SKILL% which you can replace with the Subject the student is Scheduled for. This appends to the %COURSEMARKS% inside the header.html
+         1. marksrow.html is just a Row with cells that get a find and replace of %T#% (where # is 1, 2, 3, etc.). This will append to the Maincourseblock.html.
 You need to modify the TEMPLATES to fit the format of your schools Report Cards.
 
 5. If you provide HONORS Certificates, you need to create your own. Use the current ones to understand how they work. (See files middleSchool.HONORS.html)
