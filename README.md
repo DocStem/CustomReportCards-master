@@ -1,7 +1,12 @@
 # WHAT IS THIS?
 ------
 
-![Alt text](relative/path/to/img.jpg?raw=true "Title")
+![Report Menu](reportsMenu.PNG)
+![EMAIL Report Menu](emailMenu.PNG)
+![Report Card Page 1](page1Report.PNG)
+![Report Card Page 2](page2Report.PNG)
+![Honors Certificate](Certificate.PNG)
+
 
 This is a report card customization to Rosario SIS version 5.5
 We created this as we need different specialized formats for Middle School, Elementary, Kindergarten and PreK all from the same system. We also needed the Course Major Standards on the
@@ -12,6 +17,12 @@ If you follow the setups below you can produce 1 report card every .45 seconds.
 NOTE: due to high format or our report cards, we open the PHP during this module to 1 Gig, however you can use it with less memory depending on the complexity of your PDF formats.
 
 * This is a continual work in progress but currently used in Production by clients. This has been tested on Ubuntu 18
+
+## ABOUT US
+------
+Doc STEM is the **winningest STEM Professor** in the world. Professionally, he contributed to the creation of graphics, is a world reknown robotics engineer, winner of the US Presidential Award in Science Teaching, and retired CEO of the world famous FinTech -- yeah, the real one.
+
+Our organization supports shool technology, networks, programs, etc. We also run the STEMXTRA.org outsource for school STEM programs.
 
 ## CLIENT ACKNOWLEDGEMENT
 ------
@@ -24,7 +35,7 @@ Copy the `CustomReportCard/` folder (if named `CustomReportCard-master`, rename 
 
 Go to _School Setup > School Configuration > Modules_ and click "Activate".
 
-Requires RosarioSIS 5.5+
+Requires RosarioSIS 5.5+  -- Say Hey to Francois
 
 This module installs mPDF for pdf printing options.
 This module uses PHPMailer to send emails.
@@ -91,9 +102,14 @@ I would love to see some other ones.
 
 6- This pulls the School Logo into the Report Card template if it exists
 
+7- This needs a directory called pdfreports that is used for debugging of pdf files. We do not use the SIS system for front facing of our clients. The SIS for us is administrative and kept secure from Students and Parents.
+
+8- Our grades come from Canvas LMS. See our SIS Canvas LMS two way migrations (Posting later)
+
 ### Program: Things To Do -- Further Development
 ------
 1- Modify the COURSETABLE function to allow variable Targeted Courses to be placed where ever on the template
 2- Add a Configuration table to house; icons associated with Marks, Updated Certificates, rules for Honors
 3- Perfect Attendance Certificate
+4- Find a way to update the module without Activate / Deactivate Delete.
 
