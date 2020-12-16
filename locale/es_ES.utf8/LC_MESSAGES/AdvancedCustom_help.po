@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CustomReportCard module Help\n"
+"POT-Creation-Date: 2019-11-29 16:23+0100\n"
+"PO-Revision-Date: 2019-11-29 16:23+0100\n"
+"Last-Translator: \n"
+"Language-Team: RosarioSIS <info@rosariosis.org>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _help\n"
+"X-Poedit-SearchPath-0: Help_en.php\n"
+
+#: Help_en.php:22
+msgid "<i>CustomReportCard Resource</i> lets you consult an CustomReportCard <b>resource</b>."
+msgstr ""
+"<i>Recurso de Ejemplo</i> le permite consultar <b>recursos</b> de ejemplo."
+
+#: Help_en.php:23
+msgid ""
+"I am the inline help for the <code>CustomReportCardResource.php</code> program, you "
+"will find me in the <code>Help_en.php</code> file, see you!"
+msgstr ""
+"Soy la ayuda en línea del programa <code>CustomReportCardResource.php</code>, me "
+"encontrará en el archivo <code>locale/es_ES.utf8/LC_MESSAGES/CustomReportCard_help."
+"po</code>, nos vemos!"
+
+#: Help_en.php:25 Help_en.php:37 Help_en.php:47
+msgid "<i>CustomReportCard Widget</i> lets you use an CustomReportCard <b>widget</b>."
+msgstr "<i>Widget de Ejemplo</i> le permite usar un <b>widget</b> de ejemplo."
+
+#: Help_en.php:26 Help_en.php:38 Help_en.php:48
+msgid ""
+"I am the inline help for the <code>CustomReportCardWidget.php</code> program, you "
+"will find me in the <code>Help_en.php</code> file, see you!"
+msgstr ""
+"Soy la ayuda en línea del programa <code>CustomReportCardResource.php</code>, me "
+"encontrará en el archivo <code>locale/es_ES.utf8/LC_MESSAGES/CustomReportCard_help."
+"po</code>, nos vemos!"
+
+#: Help_en.php:28
+msgid "<i>Setup</i> lets you <b>configure</b> the module."
+msgstr "<i>Configuración</i> le permite <b>configurar</b> el módulo."
+
+#: Help_en.php:29
+msgid ""
+"I am the inline help for the <code>Setup.php</code> program, you will find "
+"me in the <code>Help_en.php</code> file, see you!"
+msgstr ""
+"Soy la ayuda en línea del programa <code>CustomReportCardResource.php</code>, me "
+"encontrará en el archivo <code>locale/es_ES.utf8/LC_MESSAGES/CustomReportCard_help."
+"po</code>, nos vemos!"
+
+#: Help_en.php:39
+msgid "This text should be readable by <b>teachers</b> only!"
+msgstr "Este texto debería ser visto por <b>docentes</b> solamente!"
+
+#: Help_en.php:49
+msgid "This text should be readable by <b>parents or students</b> only!"
+msgstr ""
+"Este texto debería ser visto por <b>padres y estudiantes</b> solamente!"
+
+#~ msgid ""
+#~ "<I am the inline help for the <code>Setup.php</code> program, you will "
+#~ "find me in the <code>Help_en.php</code> file, see you!"
+#~ msgstr ""
+#~ "Soy la ayuda en línea del programa <code>CustomReportCardResource.php</code>, me "
+#~ "encontrará en el archivo <code>Help_es.php</code>, nos vemos!"
+
+#~ msgid "<This text should be readable by <b>teachers</b> only!"
+#~ msgstr "Este texto debería ser visto por <b>docentes</b> solamente!"

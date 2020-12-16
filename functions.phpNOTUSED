@@ -1,0 +1,43 @@
+<?php
+/**
+ * Module Functions / Actions
+ * (Loaded on each page)
+ *
+ * @package CustomReportCard module
+ */
+
+
+/**
+ * CustomReportCard module Portal Alerts.
+ * CustomReportCard new note.
+ *
+ * @uses misc/Portal.php|portal_alerts hook
+ *
+ * @return true if new messages note, else false.
+ */
+function CustomReportCardPortalAlerts()
+{
+	global $note;
+
+	if ( ! AllowUse( 'CustomReportCard/CustomReportCardWidget.php' ) )
+	{
+		return false;
+	}
+
+	// Add note.
+	$note[] = '<img src="modules/CustomReportCard/icon.png" class="button bigger" />
+		I am the CustomReportCard module note.
+		I have been hooked by the "misc/Portal.php|portal_alerts" action and I am registered in my functions.php file.';
+
+	return true;
+}
+
+
+/**
+ * Register & Hook our function to
+ * the 'misc/Portal.php|portal_alerts' action tag.
+ *
+ * List of available actions:
+ * @see functions/Actions.php
+ */
+add_action( 'misc/Portal.php|portal_alerts', 'CustomReportCardPortalAlerts', 15 );
