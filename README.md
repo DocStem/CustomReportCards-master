@@ -1,13 +1,5 @@
 # WHAT IS THIS?
 ------
-
-![Report Menu](reportsMenu.PNG)
-![EMAIL Report Menu](emailMenu.PNG)
-![Report Card Page 1](page1Report.PNG)
-![Report Card Page 2](page2Report.PNG)
-![Honors Certificate](Certificate.PNG)
-
-
 This is a report card customization to Rosario SIS version 5.5
 We created this as we need different specialized formats for Middle School, Elementary, Kindergarten and PreK all from the same system. We also needed the Course Major Standards on the
 report Card. (Some Report Cards include 120+ course lines.)
@@ -28,6 +20,12 @@ Our organization supports shool technology, networks, programs, etc. We also run
 ------
 Acknowledge: **Immaculate Conception Academy, Douglassville PA**. ICA is the foremost technical PreK - 8 school in the US. (2020 World Robotic winners, home of the US Tarc Rocket Team, Winner of US Congressional Coding Challenge, Winner PA STEM...)
 
+
+![Report Menu](reportsMenu.PNG)
+![EMAIL Report Menu](emailMenu.PNG)
+![Report Card Page 1](page1Report.PNG)
+![Report Card Page 2](page2Report.PNG)
+![Honors Certificate](Certificate.PNG)
 
 ### INSTALL
 -------
