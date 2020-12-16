@@ -26,9 +26,9 @@ Go to _School Setup > School Configuration > Modules_ and click "Activate".
 
 Requires RosarioSIS 5.5+
 
-** This module install mPDF for pdf printing options.
-** This module uses PHPMailer to send emails.
-(On client systems we modify the SendMail.php base function to speed the process)
+This module installs mPDF for pdf printing options.
+This module uses PHPMailer to send emails.
+(On client systems we modify the SendMail.php base function to speed the process...That information is too technical for this post.)
 
 
 ### Things To Be Aware Of
@@ -37,7 +37,7 @@ Requires RosarioSIS 5.5+
 This application is in production for the groups that needed it. You will need to modify if you download to fit your needs.
 
 1- This module makes use of SQL Views to simplify future changes. Their is an additional SQL View package to support JasperServer called ICA_SIS_VIEWS.
-2- This module does a modification to standard Rosario, it expands the COURSE TITLE to 60 Characters
+2- *This module does a modification to standard Rosario, it expands the COURSE TITLE to 60 Characters!*
 3- This module installs Postgres SQL Functions to do many calculations and make updates / modifications simpler
 4- The more complex your report card layout, the longer the report does take to generate. This is a direct function of HTML to pdf conversion.
 
@@ -45,6 +45,9 @@ This application is in production for the groups that needed it. You will need t
 ------
 1- function get_schooldata -- takes school id or Userschool() function
 2- View scheduleStudentReportCard -- Compresensive view of scheduled (not dropped) student classes with subject, period, teacher and standards/skills
+3- function get_principal gets the princial name
+4- function general_average calculates the general average of a student based on courses with a Credit of 1 and numeric grade value.
+3- View activeStudents -- provides a list of students that are active, currently enrolled.
 
 
 ### Web Server Optional
