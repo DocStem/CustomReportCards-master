@@ -1,4 +1,4 @@
-WHAT IS THIS?
+# WHAT IS THIS?
 ------
 
 ![Alt text](relative/path/to/img.jpg?raw=true "Title")
@@ -13,13 +13,13 @@ NOTE: due to high format or our report cards, we open the PHP during this module
 
 * This is a continual work in progress but currently used in Production by clients. This has been tested on Ubuntu 18
 
-CLIENT ACKNOWLEDGEMENT
+## CLIENT ACKNOWLEDGEMENT
 ------
 Acknowledge: Immaculate Conception Academy, Douglassville PA. ICA is the foremost technical PreK - 8 school in the US. (2020 World Robotic winners, home of the US Tarc Rocket Team, 
 Winner of US Congressional Coding Challenge, Winner PA STEM...)
 
 
-INSTALL
+### INSTALL
 -------
 Copy the `CustomReportCard/` folder (if named `CustomReportCard-master`, rename it) and its content inside the `modules/` folder of RosarioSIS.
 
@@ -32,7 +32,7 @@ Requires RosarioSIS 5.5+
 (On client systems we modify the SendMail.php base function to speed the process)
 
 
-Things To Be Aware Of
+### Things To Be Aware Of
 ------
 ****   THIS IS A WORK IN PROGRESS  -- Additional Professional Polish is still needed ****
 This application is in production for the groups that needed it. You will need to modify if you download to fit your needs.
@@ -42,18 +42,18 @@ This application is in production for the groups that needed it. You will need t
 3- This module installs Postgres SQL Functions to do many calculations and make updates / modifications simpler
 4- The more complex your report card layout, the longer the report does take to generate. This is a direct function of HTML to pdf conversion.
 
-SQL needed / added elements
+### SQL needed / added elements
 ------
 1- function get_schooldata -- takes school id or Userschool() function
 2- View scheduleStudentReportCard -- Compresensive view of scheduled (not dropped) student classes with subject, period, teacher and standards/skills
 
 
-Web Server Optional
+### Web Server Optional
 -------
 1- turn on Opcache in Apache for speed
 
 
-Understanding the HTML Templates
+### Understanding the HTML Templates
 -----
 The HTML templates are broken into 3 pieces
 A = Main format and layout
@@ -63,7 +63,7 @@ C = The rows that come under a Course
 The HTML Templates use a simple find and replace method. They look for Key works set off in '%'. Example %SCHOOL% is a keyword that is targeted for replace.
 
 
-System To Do For You
+## System To Do For You
 -----
 1- To Print the School District
         a. You need to add a School Custom field called -- School District
@@ -89,7 +89,7 @@ I would love to see some other ones.
 
 6- This pulls the School Logo into the Report Card template if it exists
 
-Program: Things To Do
+### Program: Things To Do -- Further Development
 ------
 1- Modify the COURSETABLE function to allow variable Targeted Courses to be placed where ever on the template
 2- Add a Configuration table to house; icons associated with Marks, Updated Certificates, rules for Honors
