@@ -2,7 +2,7 @@
 /**
  * Report Cards functions
  */
-
+ 
 if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 {
 	/**
@@ -30,7 +30,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			$_ROSARIO;
 
 
-			$templateDirectory = 'modules/CustomReportCard/includes/';
+			$templateDirectory = 'modules/CustomReportCards/includes/';
 
        //Setting the request to 0 allows for PRESENT TO be calculated on the Report
 		$other_attendance_codes = _getOtherAttendanceCodes(0);
@@ -256,7 +256,7 @@ $return .= '</td></tr>';
 		$return .= '</tr><tr class="st">';
 
 
-		if ( $_REQUEST['modname'] !== 'CustomReportCard/FinalGrades.php' )
+		if ( $_REQUEST['modname'] !== 'CustomReportCards/FinalGrades.php' )
 		{
 			$return .= '</tr><tr class="st">';
 
@@ -404,18 +404,18 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$count_lines;
 
 
-		require_once 'modules/CustomReportCard/includes/Grades.fnc.php';
+		require_once 'modules/CustomReportCards/includes/Grades.fnc.php';
 
 /* get information from the reportcard.ini settings to include specific information */
-		$reportcardParameters = include('modules/CustomReportCard/includes/reportcard.ini');
+		$reportcardParameters = include('modules/CustomReportCards/includes/reportcard.ini');
 		
 
-		$reportcardFormat = file_get_contents($_REQUEST['main_template']);//file_get_contents('modules/CustomReportCard/includes/header.html');
+		$reportcardFormat = file_get_contents($_REQUEST['main_template']);//file_get_contents('modules/CustomReportCards/includes/header.html');
 		$mainCourseGrid = file_get_contents($_REQUEST['course_template']);
 		$attendanceCourseGrid = file_get_contents($_REQUEST['attendance_template']);
-		$marksRowsGrid = file_get_contents('modules/CustomReportCard/includes/marksrows.html');
-		$firstHonorsCertificate = file_get_contents('modules/CustomReportCard/includes/middleSchool.HONORS.html');
-		$secondHonorsCertificate = file_get_contents('modules/CustomReportCard/includes/middleSchool.SECONDHONORS.html');
+		$marksRowsGrid = file_get_contents('modules/CustomReportCards/includes/marksrows.html');
+		$firstHonorsCertificate = file_get_contents('modules/CustomReportCards/includes/middleSchool.HONORS.html');
+		$secondHonorsCertificate = file_get_contents('modules/CustomReportCards/includes/middleSchool.SECONDHONORS.html');
 
 
 /* You forgot to select a student and period */
@@ -776,7 +776,7 @@ echo '<bookmark content="' . $student['FULL_NAME'] . '"/>';
 						$reportCardHeader = GridReplacement('%HONORSCERTIFICATE%',$reportCardHeader,'');
 					}elseif($studentHonors >= 1){
 						//Second Honors
-						$secondhonors = '<center><img src="modules/CustomReportCard/img/secondhonors.png" style="height:30px;"></center>';
+						$secondhonors = '<center><img src="modules/CustomReportCards/img/secondhonors.png" style="height:30px;"></center>';
 						$reportCardHeader = GridReplacement('%HONORS%',$reportCardHeader,$secondhonors);
 
 						$personalizes = GridReplacement('%STUDENTNAME%',$secondHonorsCertificate, $student['FULL_NAME']);
@@ -787,7 +787,7 @@ echo '<bookmark content="' . $student['FULL_NAME'] . '"/>';
 						
 					}else{
 						//First Honors
-						$firsthonors = '<center><img src="modules/CustomReportCard/img/firsthonors.png" style="height:30px;"></center>';
+						$firsthonors = '<center><img src="modules/CustomReportCards/img/firsthonors.png" style="height:30px;"></center>';
 						$reportCardHeader = GridReplacement('%HONORS%',$reportCardHeader,$firsthonors);
 
 						$personalizes = GridReplacement('%STUDENTNAME%',$firstHonorsCertificate, $student['FULL_NAME']);
@@ -806,7 +806,7 @@ echo '<bookmark content="' . $student['FULL_NAME'] . '"/>';
 
 //print('F -- Memory usage '. round(memory_get_usage()/1048576,2) .' MG <br>');
 				// @since 4.5 Add Report Cards PDF header action hook.
-				do_action( 'CustomReportCard/includes/ReportCards.fnc.php|pdf_header', $student_id );
+				do_action( 'CustomReportCards/includes/ReportCards.fnc.php|pdf_header', $student_id );
 
 				// Comments.
 //if ( isset( $_REQUEST['elements']['comments'] )   REMOVED
@@ -1080,11 +1080,11 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 							
 
 						     if($testMark[1]['GRADE_LETTER'] == 'Check'){
-						     	$letterGrade = '<img src="modules/CustomReportCard/img/checkmark.png" style="width:13px;height:13px;"></img>';
+						     	$letterGrade = '<img src="modules/CustomReportCards/img/checkmark.png" style="width:13px;height:13px;"></img>';
 						     }elseif($testMark[1]['GRADE_LETTER'] == '-'){
-						     	$letterGrade = '<img src="modules/CustomReportCard/img/redminus.png" style="width:12px;height:12px;"></img>';
+						     	$letterGrade = '<img src="modules/CustomReportCards/img/redminus.png" style="width:12px;height:12px;"></img>';
 						     }elseif($testMark[1]['GRADE_LETTER'] == '+'){
-						     	$letterGrade = '<img src="modules/CustomReportCard/img/plus.png" style="width:12px;height:12px;"></img>';
+						     	$letterGrade = '<img src="modules/CustomReportCards/img/plus.png" style="width:12px;height:12px;"></img>';
 						     }else{
 						     	$letterGrade = $testMark[1]['GRADE_LETTER'];
 						     }

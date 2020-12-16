@@ -25,19 +25,19 @@
 --
 -- Data for Name: profile_exceptions; Type: TABLE DATA;
 --
-
+  
 INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
-SELECT 1, 'CustomReportCard/CustomReportCards.php', 'Y', 'Y'
+SELECT 1, 'CustomReportCards/CustomReportCards.php', 'Y', 'Y'
 WHERE NOT EXISTS (SELECT profile_id
     FROM profile_exceptions
-    WHERE modname='CustomReportCard/CustomReportCards.php'
+    WHERE modname='CustomReportCards/CustomReportCards.php'
     AND profile_id=1);
 
 INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
-SELECT 1, 'CustomReportCard/ReportCardsEmailParents.php', 'Y', 'Y'
+SELECT 1, 'CustomReportCards/ReportCardsEmailParents.php', 'Y', 'Y'
 WHERE NOT EXISTS (SELECT profile_id
     FROM profile_exceptions
-    WHERE modname='CustomReportCard/ReportCardsEmailParents.php'
+    WHERE modname='CustomReportCards/ReportCardsEmailParents.php'
     AND profile_id=1);
 
 
