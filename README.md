@@ -26,7 +26,7 @@ EMAIL REPORTS MENU
 ![EMAIL Report Menu](emailMenu.PNG)
 REPORT CARD
 ![Report Card Page 1](page1Report.PNG)
-![Report Card Page 2](page2Report.PNG)
+![Report Card Page 2](reportpage2.PNG)
 HONORS CERTIFICATE
 ![Honors Certificate](Certificate.PNG)
 
