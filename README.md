@@ -15,8 +15,7 @@ NOTE: due to high format or our report cards, we open the PHP during this module
 
 ## CLIENT ACKNOWLEDGEMENT
 ------
-Acknowledge: Immaculate Conception Academy, Douglassville PA. ICA is the foremost technical PreK - 8 school in the US. (2020 World Robotic winners, home of the US Tarc Rocket Team, 
-Winner of US Congressional Coding Challenge, Winner PA STEM...)
+Acknowledge: **Immaculate Conception Academy, Douglassville PA**. ICA is the foremost technical PreK - 8 school in the US. (2020 World Robotic winners, home of the US Tarc Rocket Team, Winner of US Congressional Coding Challenge, Winner PA STEM...)
 
 
 ### INSTALL
@@ -34,7 +33,7 @@ Requires RosarioSIS 5.5+
 
 ### Things To Be Aware Of
 ------
-****   THIS IS A WORK IN PROGRESS  -- Additional Professional Polish is still needed ****
+**THIS IS A WORK IN PROGRESS  -- Additional Professional Polish is still needed**
 This application is in production for the groups that needed it. You will need to modify if you download to fit your needs.
 
 1- This module makes use of SQL Views to simplify future changes. Their is an additional SQL View package to support JasperServer called ICA_SIS_VIEWS.
