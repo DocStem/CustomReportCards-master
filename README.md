@@ -22,7 +22,7 @@ NOTE: due to high format or our report cards, we open the PHP during this module
 ------
 Doc STEM is the **winningest STEM Professor** in the world. Professionally, he contributed to the creation of graphics, is a world reknown robotics engineer, winner of the US Presidential Award in Science Teaching, and retired CEO of the world famous FinTech -- yeah, the real one.
 
-Our organization supports shool technology, networks, programs, etc. We also run the STEMXTRA.org outsource for school STEM programs.
+Our organization supports shool technology, networks, programs, etc. We also run the STEMXTRA.org outsource for school STEM programs. Reach out to us if you need support.
 
 ## CLIENT ACKNOWLEDGEMENT
 ------
