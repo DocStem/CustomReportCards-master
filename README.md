@@ -32,7 +32,7 @@ HONORS CERTIFICATE
 
 ### INSTALL
 -------
-Copy the `CustomReportCard/` folder (if named `CustomReportCard-master`, rename it) and its content inside the `modules/` folder of RosarioSIS.
+Copy the `CustomReportCards/` folder (if named `CustomReportCard-master`, rename it) and its content inside the `modules/` folder of RosarioSIS.
 
 Go to _School Setup > School Configuration > Modules_ and click "Activate".
 

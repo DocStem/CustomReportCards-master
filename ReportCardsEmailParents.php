@@ -6,7 +6,7 @@ ini_set("memory_limit","2048M");
  * @package Email Parents module
  */
  
-require_once 'modules/CustomReportCard/includes/ReportCards.fnc.php';
+require_once 'modules/CustomReportCards/includes/ReportCards.fnc.php';
 require_once 'ProgramFunctions/SendEmail.fnc.php';
 // @deprecated since 4.2.
 require_once 'modules/Email_Parents/includes/MakeChooseCheckbox.fnc.php';
