@@ -5,8 +5,8 @@ ini_set("memory_limit","2048M");
  *
  * @package Email Parents module
  */
-  
-require_once 'modules/CustomReportCards/includes/ReportCards.fnc.php';
+ 
+require_once 'modules/CustomReportCard/includes/ReportCards.fnc.php';
 require_once 'ProgramFunctions/SendEmail.fnc.php';
 // @deprecated since 4.2.
 require_once 'modules/Email_Parents/includes/MakeChooseCheckbox.fnc.php';
@@ -86,33 +86,39 @@ if ( isset( $_REQUEST['modfunc'] )
 
 			// SELECT Staff details.
 			$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME
-				FROM STAFF st,STUDENTS_JOIN_USERS sju
-				WHERE sju.STAFF_ID=st.STAFF_ID
-				AND s.STUDENT_ID=sju.STUDENT_ID
-				AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS A_PARENT_NAME";
+		FROM STAFF st,STUDENTS_JOIN_USERS sju
+		WHERE sju.STAFF_ID=st.STAFF_ID
+		AND s.STUDENT_ID=sju.STUDENT_ID
+		AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1) AS A_PARENT_NAME";
 
-			// SELECT Staff details.
-			$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME
-				FROM STAFF st,STUDENTS_JOIN_USERS sju
-				WHERE sju.STAFF_ID=st.STAFF_ID
-				AND s.STUDENT_ID=sju.STUDENT_ID
-				AND st.EMAIL is Not Null 
-				AND st.SYEAR='" . UserSyear() . "' LIMIT 1 OFFSET 1) AS B_PARENT_NAME";
+	// SELECT Staff details.
+	$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME
+		FROM STAFF st,STUDENTS_JOIN_USERS sju
+		WHERE sju.STAFF_ID=st.STAFF_ID
+		AND s.STUDENT_ID=sju.STUDENT_ID
+		AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1 OFFSET 1) AS B_PARENT_NAME";
 
-		//	AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS PARENT_NAME";
+//	AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS PARENT_NAME";
 
-			$extra['SELECT'] .= ",(SELECT st.EMAIL
-				FROM STAFF st,STUDENTS_JOIN_USERS sju
-				WHERE sju.STAFF_ID=st.STAFF_ID
-				AND s.STUDENT_ID=sju.STUDENT_ID
-				AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS A_PARENT_EMAIL";
+	$extra['SELECT'] .= ",(SELECT st.EMAIL
+		FROM STAFF st,STUDENTS_JOIN_USERS sju
+		WHERE sju.STAFF_ID=st.STAFF_ID
+		AND s.STUDENT_ID=sju.STUDENT_ID
+		AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1) AS A_PARENT_EMAIL";
 
-			$extra['SELECT'] .= ",(SELECT st.EMAIL
-				FROM STAFF st,STUDENTS_JOIN_USERS sju
-				WHERE sju.STAFF_ID=st.STAFF_ID
-				AND s.STUDENT_ID=sju.STUDENT_ID
-				AND st.EMAIL is Not Null 
-				AND st.SYEAR='" . UserSyear() . "' LIMIT 1 OFFSET 1) AS B_PARENT_EMAIL";
+	$extra['SELECT'] .= ",(SELECT st.EMAIL
+		FROM STAFF st,STUDENTS_JOIN_USERS sju
+		WHERE sju.STAFF_ID=st.STAFF_ID
+		AND s.STUDENT_ID=sju.STUDENT_ID
+			AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1 OFFSET 1) AS B_PARENT_EMAIL";
 
 			$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
@@ -146,7 +152,7 @@ if ( isset( $_REQUEST['modfunc'] )
 			        								]
 			        					]
 			   					 			]);
-								$mpdf->SetWatermarkText('Immaculate Conception Academy',0.07);
+								$mpdf->SetWatermarkText('Immaculate Conception Academy',0.06);
 								$mpdf->showWatermarkText = true;
 								$mpdf->watermark_font = 'TimesNewRoman';
 								$mpdf->SetHTMLFooter('<table width="100%">
@@ -160,14 +166,38 @@ if ( isset( $_REQUEST['modfunc'] )
 
 
 
-
-
-				if($students['B_PARENT_EMAIL'] >''){
-					$to = $students['A_PARENT_EMAIL'] . ',' . $students['B_PARENT_EMAIL'];
-				}else{
-					$to = $students['A_PARENT_EMAIL'];
+				$bcc='';
+				$count=0;
+				$myto = array();
+				if($students['A_PARENT_EMAIL']){
+					$myto[0] = $students['A_PARENT_EMAIL'];
+					//$myto[0] ='gforkin@icaknights.org';
 				}
-				
+				if($students['B_PARENT_EMAIL'] > '' && $students['A_PARENT_EMAIL'] != $students['B_PARENT_EMAIL']){
+					$myto[1] = $students['B_PARENT_EMAIL'];
+					//$myto[1] ='gforkin@fintechllc.com';
+				}
+
+				/*
+				if($students['A_PARENT_EMAIL'] > '' && $students['B_PARENT_EMAIL'] > ''){
+					if($students['A_PARENT_EMAIL'] != $students['B_PARENT_EMAIL']){
+					  $bcc = $students['A_PARENT_EMAIL'] . ',' . $students['B_PARENT_EMAIL'];
+					  $count = 2;
+					}else{
+						$bcc = $students['A_PARENT_EMAIL'];
+						$count=1;
+					}
+				}elseif($students['A_PARENT_EMAIL'] > '' && ! $students['B_PARENT_EMAIL'] ){
+					$bcc = $students['A_PARENT_EMAIL'];
+				}elseif(! $students['A_PARENT_EMAIL'] && $students['B_PARENT_EMAIL'] > '' ){
+					$bcc = $students['B_PARENT_EMAIL'];
+				}
+
+				*/
+
+
+
+				//$to =  'gforkin@icaknights.org';/// Take no Chance.  $student['PARENT_EMAIL'];
 
 				$reply_to = $cc = null;
 
@@ -190,62 +220,79 @@ if ( isset( $_REQUEST['modfunc'] )
 				// Substitutions.
 				$msg = SubstitutionsTextMake( $substitutions, $message );
 
-				//$msg .= '** This report card booklet is best printed landsape 2-sided.';
+				//$msg .= 'This would have been emailed to ' . $bcc;
+
+				//$msg .;= '** This report card booklet is best printed landsape 2-sided.';
 				$report_card = '';
 				$report_card = $report_cards[ $students['STUDENT_ID'] ];
 
-				if ( $report_card )
-				{
 
-					//give pdf a place to go
-					//$files[$i] = dirname(__FILE__) . '/pdfreportcards/' . $students['STUDENT_ID'] .'.pdf';
 
-				
 
-					$mpdf->WriteHTML(utf8_encode($report_card));
-					//$mpdf->Output($files[$i], 'F');
-
-					$files[$i] = dirname(__FILE__) . '/pdfreportcards/' . $students['FIRST_NAME'] .'_' . $students['LAST_NAME'] . '.pdf';
-					$pdf_name = 'Report Card ' . $students['FIRST_NAME'] .'_' . $students['LAST_NAME'] . '.pdf';
-					
-						$mpdf->Output($files[$i], 'F');
-						unset($mpdf);
-					//$pdf_file = $mpdf->Output('', 'S');
-
-				
-
-//error_log('Student report card ' . $pdf_name);
-//error_log('report card ' . $pdf_file);
-					// Send Email.
-				/*	$result = SendEmail(
-						$to,
-						$subject,
-						$msg,
-						$reply_to,
-						$cc,
-						array( array( $pdf_file, $pdf_name ) )
-					);*/
-
-$cc='';
-						$result = SendEmail(
-						$to,
-						$subject,
-						$msg,
-						$reply_to,
-						$cc,
-						array( array( $files[$i],$pdf_name) )
-					);
-
-					// Delete PDF file.
-					unlink($files[$i]);
-
-					if ( ! $result )
+					if ( $report_card )
 					{
-					//	$error_email_list[] = $student['PARENT_NAME'] .
-					//		' (' . $student['PARENT_EMAIL'] . ')';
-						$error_email_list[] = $students['A_PARENT_NAME'] . ' OR ' . $students['B_PARENT_NAME'] . ' ('. $students['A_PARENT_EMAIL'] . ' '.  $students['B_PARENT_EMAIL'] .')';
+
+						//give pdf a place to go
+						//$files[$i] = dirname(__FILE__) . '/pdfreportcards/' . $students['STUDENT_ID'] .'.pdf';
+
+					
+
+						$mpdf->WriteHTML(utf8_encode($report_card));
+						//$mpdf->Output($files[$i], 'F');
+
+						$files[$i] = dirname(__FILE__) . '/pdfreportcards/' . $students['FIRST_NAME'] .'_' . $students['LAST_NAME'] . '.pdf';
+						$pdf_name = 'Report Card ' . $students['FIRST_NAME'] .'_' . $students['LAST_NAME'] . '.pdf';
+						
+							$mpdf->Output($files[$i], 'F');
+							unset($mpdf);
+						//$pdf_file = $mpdf->Output('', 'S');
+
+					
+
+	//error_log('Student report card ' . $pdf_name);
+	//error_log('report card ' . $pdf_file);
+						// Send Email.
+					/*	$result = SendEmail(
+							$to,
+							$subject,
+							$msg,
+							$reply_to,
+							$bcc,
+							$cc,
+							array( array( $pdf_file, $pdf_name ) )
+						);*/
+
+						for($j = 0; $j < count($myto); $j++){
+
+							$cc='';
+							$to=$myto[$j];
+							$bcc='';
+
+							$result = SendEmail(
+							$to,
+							$subject,
+							$msg,
+							$reply_to,
+							$bcc,
+							$cc,
+							array( array( $files[$i],$pdf_name) )
+						);
+
+						
+
+						if ( ! $result )
+						{
+						//	$error_email_list[] = $student['PARENT_NAME'] .
+						//		' (' . $student['PARENT_EMAIL'] . ')';
+							$error_email_list[] = $students['A_PARENT_NAME'] . ' OR ' . $students['B_PARENT_NAME'] . ' (' . $students['A_PARENT_EMAIL'] . ' ' . $students['B_PARENT_EMAIL'] .')';
+						}
+						
+					  }
+					  // Delete PDF file.
+						unlink($files[$i]);
+						unset($myto);
 					}
-				}
+				
 				$i++;
 			}
 
@@ -337,7 +384,9 @@ if ( empty( $_REQUEST['modfunc'] )
 		FROM STAFF st,STUDENTS_JOIN_USERS sju
 		WHERE sju.STAFF_ID=st.STAFF_ID
 		AND s.STUDENT_ID=sju.STUDENT_ID
-		AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS A_PARENT_NAME";
+		AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1) AS A_PARENT_NAME";
 
 	// SELECT Staff details.
 	$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME
@@ -345,7 +394,8 @@ if ( empty( $_REQUEST['modfunc'] )
 		WHERE sju.STAFF_ID=st.STAFF_ID
 		AND s.STUDENT_ID=sju.STUDENT_ID
 		AND st.EMAIL is Not Null 
-		AND st.SYEAR='" . UserSyear() . "' LIMIT 1 OFFSET 1) AS B_PARENT_NAME";
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1 OFFSET 1) AS B_PARENT_NAME";
 
 //	AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS PARENT_NAME";
 
@@ -353,14 +403,17 @@ if ( empty( $_REQUEST['modfunc'] )
 		FROM STAFF st,STUDENTS_JOIN_USERS sju
 		WHERE sju.STAFF_ID=st.STAFF_ID
 		AND s.STUDENT_ID=sju.STUDENT_ID
-		AND st.SYEAR='" . UserSyear() . "' LIMIT 1) AS A_PARENT_EMAIL";
+		AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1) AS A_PARENT_EMAIL";
 
 	$extra['SELECT'] .= ",(SELECT st.EMAIL
 		FROM STAFF st,STUDENTS_JOIN_USERS sju
 		WHERE sju.STAFF_ID=st.STAFF_ID
 		AND s.STUDENT_ID=sju.STUDENT_ID
-		AND st.EMAIL is Not Null 
-		AND st.SYEAR='" . UserSyear() . "' LIMIT 1 OFFSET 1) AS B_PARENT_EMAIL";
+			AND st.EMAIL is Not Null 
+		AND st.SYEAR='" . UserSyear() . "' 
+		ORDER BY st.FIRST_NAME LIMIT 1 OFFSET 1) AS B_PARENT_EMAIL";
 
 	// ORDER BY Name.
 	$extra['ORDER_BY'] = 'FULL_NAME';
