@@ -1,8 +1,8 @@
 <?php
 ini_set("memory_limit","2048M");
 // Should be included first, in case modfunc is Class Rank Calculate AJAX.
-require_once 'modules/CustomReportCards/includes/ClassRank.inc.php';
-require_once 'modules/CustomReportCards/includes/ReportCards.fnc.php';
+require_once 'modules/CustomReportCard/includes/ClassRank.inc.php';
+require_once 'modules/CustomReportCard/includes/ReportCards.fnc.php';
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Template.fnc.php';
@@ -43,7 +43,7 @@ switch($_REQUEST['modfunc']){
 				 *
 				 * @since 4.0
 				 */
-				do_action( 'CustomReportCards/ReportCards.php|report_cards_html_array' );
+				do_action( 'CustomReportCard/ReportCards.php|report_cards_html_array' );
 
 
 
@@ -138,7 +138,7 @@ switch($_REQUEST['modfunc']){
 								$i++;
 				//error_log('Number of people that eat poop ' . $i);
 /*
-				$hrefLink = 'sis.ica.lan/modules/CustomReportCards/pdfreportcards/' . $students['STUDENT_ID'] .'.pdf';
+				$hrefLink = 'sis.ica.lan/modules/CustomReportCard/pdfreportcards/' . $students['STUDENT_ID'] .'.pdf';
 				$childname = $students['FIRST_NAME'] .' ' . $students['LAST_NAME'] .'<BR>';
 				$refLink = '<a href="http://' . $hrefLink .'" target="_blank">' .$childname . '</a>'; 
 				print($refLink .'<BR>');
@@ -193,7 +193,7 @@ switch($_REQUEST['modfunc']){
 				$extra['extra_header_left'] = ReportCardsIncludeForm();
 
 				// @since 4.5 Add Report Cards header action hook.
-				do_action( 'CustomReportCards/ReportCards.php|header' );
+				do_action( 'CustomReportCard/ReportCards.php|header' );
 			}
 
 			$extra['new'] = true;

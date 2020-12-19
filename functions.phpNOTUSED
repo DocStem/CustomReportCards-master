@@ -19,13 +19,13 @@ function CustomReportCardPortalAlerts()
 {
 	global $note;
 
-	if ( ! AllowUse( 'CustomReportCards/CustomReportCardWidget.php' ) )
+	if ( ! AllowUse( 'CustomReportCard/CustomReportCardWidget.php' ) )
 	{
 		return false;
 	}
 
 	// Add note.
-	$note[] = '<img src="modules/CustomReportCards/icon.png" class="button bigger" />
+	$note[] = '<img src="modules/CustomReportCard/icon.png" class="button bigger" />
 		I am the CustomReportCard module note.
 		I have been hooked by the "misc/Portal.php|portal_alerts" action and I am registered in my functions.php file.';
 

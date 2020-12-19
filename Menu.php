@@ -17,10 +17,10 @@ $module_name = dgettext( 'CustomReportCard', 'CustomReportCard' );
 // Menu entries for the CustomReportCard module.
 $menu['CustomReportCard']['admin'] = array( // Admin menu.
 	'title' => dgettext( 'CustomReportCard', 'CustomReportCard' ),
-	'default' => 'CustomReportCards/CustomReportCards.php', // Program loaded by default when menu opened.
-	'CustomReportCards/CustomReportCards.php' => dgettext( 'CustomReportCard', 'Custom Report Cards' ),
-	'CustomReportCards/ReportCardsEmailParents.php' => dgettext( 'CustomReportCard', 'EMail Report Cards' ),
+	'default' => 'CustomReportCard/CustomReportCards.php', // Program loaded by default when menu opened.
+	'CustomReportCard/CustomReportCards.php' => dgettext( 'CustomReportCard', 'Custom Report Cards' ),
+	'CustomReportCard/ReportCardsEmailParents.php' => dgettext( 'CustomReportCard', 'EMail Report Cards' ),
 	1 => _( 'Setup' ), // Add sub-menu 1 (only for admins).
-	'CustomReportCards/Setup.php' => _( 'Configuration' ), // Reuse existing translations: 'Configuration' exists under School module.
+	'CustomReportCard/Setup.php' => _( 'Configuration' ), // Reuse existing translations: 'Configuration' exists under School module.
 );
 

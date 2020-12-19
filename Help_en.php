@@ -29,7 +29,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	
 
 
-	$help['CustomReportCards/CustomReportCards.php'] = '<p>' . _help( '<i>Custom Report Cards</i> You Create HTHL Templates that can use replacement to populate the report card format.' ) . '</p>
+	$help['CustomReportCard/CustomReportCards.php'] = '<p>' . _help( '<i>Custom Report Cards</i> You Create HTHL Templates that can use replacement to populate the report card format.' ) . '</p>
 	<p>' . _help( 'I am the inline help for the <code>Setup.php</code> program, you will find me in the <code>Help_en.php</code> file, see you!', 'CustomReportCard' ) . '</p>';
 
 endif;

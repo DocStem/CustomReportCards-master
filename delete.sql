@@ -15,10 +15,10 @@
 --
 
 
-DELETE FROM profile_exceptions WHERE modname='CustomReportCards/CustomReportCards.php';
-DELETE FROM profile_exceptions WHERE modname='CustomReportCards/ReportCardsEmailParents.php';
-DELETE FROM profile_exceptions WHERE modname='CustomReportCards/CustomReportCards.php';
-DELETE FROM profile_exceptions WHERE modname='CustomReportCards/ReportCardsEmailParents.php';
+DELETE FROM profile_exceptions WHERE modname='CustomReportCard/CustomReportCards.php';
+DELETE FROM profile_exceptions WHERE modname='CustomReportCard/ReportCardsEmailParents.php';
+DELETE FROM profile_exceptions WHERE modname='CustomReportCard/CustomReportCards.php';
+DELETE FROM profile_exceptions WHERE modname='CustomReportCard/ReportCardsEmailParents.php';
 
 --
 -- Delete options from program_config table

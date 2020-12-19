@@ -25,19 +25,19 @@
 --
 -- Data for Name: profile_exceptions; Type: TABLE DATA;
 --
-  
+
 INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
-SELECT 1, 'CustomReportCards/CustomReportCards.php', 'Y', 'Y'
+SELECT 1, 'CustomReportCard/CustomReportCards.php', 'Y', 'Y'
 WHERE NOT EXISTS (SELECT profile_id
     FROM profile_exceptions
-    WHERE modname='CustomReportCards/CustomReportCards.php'
+    WHERE modname='CustomReportCard/CustomReportCards.php'
     AND profile_id=1);
 
 INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
-SELECT 1, 'CustomReportCards/ReportCardsEmailParents.php', 'Y', 'Y'
+SELECT 1, 'CustomReportCard/ReportCardsEmailParents.php', 'Y', 'Y'
 WHERE NOT EXISTS (SELECT profile_id
     FROM profile_exceptions
-    WHERE modname='CustomReportCards/ReportCardsEmailParents.php'
+    WHERE modname='CustomReportCard/ReportCardsEmailParents.php'
     AND profile_id=1);
 
 
@@ -66,10 +66,15 @@ WHERE NOT EXISTS (SELECT title
 /* Modifications, Table Additions, View Additions, Function Additions needed to support this module
 
 */
+/* In Case of reinstall with new version */
+DROP VIEW "studentGeneralAverage" CASCADE;
+DROP VIEW "studentScheduleReportCard" CASCADE;
+DROP VIEW "active_students" CASCADE;
+DROP Function "get_schooldata" CASCADE;
+DROP VIEW "get_schooldata" CASCADE;
 
 /* Need more characters for the Skills */
---DROP VIEW "studentGeneralAverage";
---DROP VIEW "studentScheduleReportCard";
+
 
 
 
