@@ -233,6 +233,7 @@ CREATE OR REPLACE VIEW active_students
     b.subject_id,
     b.title,
     b.short_name,
+    b.credit_hours,
     c.title AS subjectteacher,
     c.short_name AS subjectskill,
     c.teacher_id,
