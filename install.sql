@@ -314,3 +314,42 @@ CREATE OR REPLACE VIEW enroll_grade
   
 
   /* Add New Tables */
+  -- View: public.tieredStudentScheduleReportCard
+
+-- DROP VIEW public."tieredStudentScheduleReportCard";
+
+CREATE OR REPLACE VIEW public."tieredStudentScheduleReportCard"
+ AS
+ SELECT a.syear,
+    a.school_id,
+    a.student_id,
+    a.end_date,
+    a.course_id,
+    a.course_period_id,
+    a.marking_period_id,
+    b.subject_id,
+    b.title AS subject,
+    b.short_name,
+    b.credit_hours,
+    c.title AS subjectteacher,
+    c.short_name AS subjectskill,
+    c.teacher_id,
+    f.title AS teachersalutation,
+    f.first_name AS teacherfirstname,
+    f.last_name AS teacherlastname,
+    c.parent_id,
+    d.last_name,
+    d.first_name,
+    e.title AS "grouping",
+    e.sort_order AS reportcardorder
+   FROM schedule a,
+    courses b,
+    course_periods c,
+    students d,
+    course_subjects e,
+    staff f
+  WHERE ((a.course_id = b.course_id) AND (a.course_period_id = c.course_period_id) AND (a.student_id = d.student_id) AND (a.end_date IS NULL) AND (b.subject_id = e.subject_id) AND (c.teacher_id = f.staff_id));
+
+ALTER TABLE public."tieredStudentScheduleReportCard"
+    OWNER TO rosariosis;
+
