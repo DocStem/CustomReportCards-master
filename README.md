@@ -43,15 +43,15 @@ This module uses PHPMailer to send emails.
 (On client systems we modify the SendMail.php base function to speed the process...That information is too technical for this post.)
 
 
-### Things To Be Aware Of
+### Things To Know
 ------
 **THIS IS A WORK IN PROGRESS  -- Additional Professional Polish is still needed**
 This application is in production for the groups that needed it. You will need to modify if you download to fit your needs.
 
-1. This module makes use of SQL Views to simplify future changes. Their is an additional SQL View package to support JasperServer called ICA_SIS_VIEWS.
+1. This module makes use of SQL Views to simplify future changes. Their is an additional SQL View package to support JasperServer called ICA_SIS_VIEWS. This module does install ALL the Views you need.
 2. *This module does a modification to standard Rosario, it expands the COURSE TITLE to 60 Characters!*
-3. This module installs Postgres SQL Functions to do many calculations and make updates / modifications simpler
-4. The more complex your report card layout, the longer the report does take to generate. This is a direct function of HTML to pdf conversion.
+3. This module installs Postgres SQL Functions to do many calculations and make updates / modifications simpler. This is only important if your a coder.
+4. The more complex your report card layout, the longer the report does take to generate. This is a direct function of HTML to pdf conversion. We create a new Report card ever .3 seconds and email it.
 
 ### SQL needed / added elements
 ------
@@ -60,6 +60,8 @@ This application is in production for the groups that needed it. You will need t
 3. function get_principal gets the princial name
 4. function general_average calculates the general average of a student based on courses with a Credit of 1 and numeric grade value.
 5. View activeStudents -- provides a list of students that are active, currently enrolled.
+6. StudentScheduledClasses -- a view to review what students are scheduled for including teacher, Subject school, period etc.
+7. tieredStudentScheduleClasses - a view to do 3 level tables for report cards that are used in Kindergarten. Grouping, Subject, Skills.
 
 
 ### Web Server Optional
