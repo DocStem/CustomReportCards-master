@@ -90,10 +90,11 @@ That is on the template but you dont have to keep it on any new template. just u
 3. One of the tricks we did was to create a COURSE called SUBJECT SKILLS for each subject so that they could be pulled easily... We did not give them a PERIOD but did give them a MARKED designation 
 
 4. Modify your templates in the includes directory. 
-	1. Called header.html -- holds the top first page header and the back page Comment Codes
-	2. maincourseblock.html is a Table Header it has %SKILL% which you can replace with the Subject the student is Scheduled for. This appends to the %COURSEMARKS% inside the header.html
-	3. marksrow.html is just a Row with cells that get a find and replace of %T#% (where # is 1, 2, 3, etc.). This will append to the Maincourseblock.html.
-You need to modify the TEMPLATES to fit the format of your schools Report Cards.
+	1. whatever.MAIN.html -- holds the top first page header and the back page Comment Codes-- MAIN is a keyword make as many as you like just change the first part of the name.
+	2. Whatever.COURSE.html is a Table Header it has %SKILL% which you can replace with the Subject the student is Scheduled for. This appends to the %COURSEMARKS% inside the *.MAIN.html allows for different looks and feels. Move it to Quarters, Half Year, etc.
+	3. *.MARKSROW.html is just a Row with cells that get a find and replace of %T#% (where # is 1, 2, 3, etc.). This will append to the *.COURSE.html. Again lets for variation of the style.
+You need to modify the TEMPLATES to fit the format of your schools Report Cards look and feel or use ours.
+
 
 5. If you provide HONORS Certificates, you need to create your own. Use the current ones to understand how they work. (See files middleSchool.HONORS.html)
 ++ Our requirements are 92+ and Pass on all courses for First Honors. 85+ and Pass on all courses for Second Honors.
@@ -107,8 +108,8 @@ I would love to see some other ones.
 
 ### Program: Things To Do -- Further Development
 ------
-1. Modify the COURSETABLE function to allow variable Targeted Courses to be placed where ever on the template
+1. Modify the COURSETABLE function to allow variable Targeted Courses to be placed where ever on the template (Currently you can target for specific Placement CHRISTIAN_VALUES, SUCCESSFUL_LEARNER, EFFORT & CONDUCT)
 2. Add a Configuration table to house; icons associated with Marks, Updated Certificates, rules for Honors
 3. Perfect Attendance Certificate
-4. Find a way to update the module without Activate / Deactivate Delete.
+
 

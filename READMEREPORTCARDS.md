@@ -21,9 +21,10 @@ System To Do
 					       give them a MARKED designation 
 
 4- Modify your templates in the includes directory. 
-         a. Called header.html -- holds the top first page header and the back page Comment Codes
-         b. maincourseblock.html is a Table Header it has %SKILL% which you can replace with the Subject the student is Schedules for. This appends to the %COURSEMARKS% inside the header.html
-         c. marksrow.html is just a Row with cells that get a find and replace of %T#% (where # is 1, 2, 3, etc.). This will append to the Maincourseblock.html.
+         a. Called header.MAIN.html -- holds the top first page header and the back page Comment Codes/The key word is MAIN
+         b. Whatever.COURSE.html is a Table Header it has %SKILL% which you can replace with the Subject the student is Schedules for. This appends to the %COURSEMARKS% inside the header.html -- allows you the flexibilty to change the look and feel of Subject / Skill tables.
+         c. Whatever.MARKSROWS.html is just a Row with cells that get a find and replace of %T#% (where # is 1, 2, 3, etc.). This will append to the *.COURSE.html.
+         Together the 3 can be used for mix / match and new styler report cards. I have include 2 similar of each.
 
 
 
