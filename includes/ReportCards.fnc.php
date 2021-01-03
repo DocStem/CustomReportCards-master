@@ -3,380 +3,7 @@
  * Report Cards functions
  */
  
-if ( ! function_exists( 'ReportCardsIncludeForm' ) )
-{
-	/**
-	 * Get Include on Report Card form
-	 *
-	 * @todo Use Inputs.php functions.
-	 *
-	 * @example $extra['extra_header_left'] = ReportCardsIncludeForm();
-	 *
-	 * @since 4.0 Define your custom function in your addon module or plugin.
-	 * @since 5.0 Add GPA or Total row.
-	 * @since 5.0 Add Min. and Max. Grades.
-	 *
-	 * @global $extra Get $extra['search'] for Mailing Labels Widget
-	 *
-	 * @uses _getOtherAttendanceCodes()
-	 *
-	 * @param  string  $include_on_title Form title (optional). Defaults to 'Include on Report Card'.
-	 * @param  boolean $mailing_labels   Include Mailing Labels widget (optional). Defaults to true.
-	 * @return string  Include on Report Card form
-	 */
-	function ReportCardsIncludeForm( $include_on_title = 'Include on Report Card', $mailing_labels = true )
-	{
-		global $extra,
-			$_ROSARIO;
 
-
-			$templateDirectory = 'modules/CustomReportCard/includes/';
-
-       //Setting the request to 0 allows for PRESENT TO be calculated on the Report
-		$other_attendance_codes = _getOtherAttendanceCodes(0);
-
-		if ( $include_on_title === 'Include on Report Card' )
-		{
-			$include_on_title = _( 'Include on Report Card' );
-		}
-
-		//echo $templateDirectory;
-		// Open table.
-		$return .= '<table class="width-100p"><tr><td colspan="4"><b>' . $include_on_title .
-			'</b></td></tr><tr><td colspan="3"><table class="cellpadding-5"><tr class="st">';
-
-			$return .= '<tr><td colspan="4">' . FormatInputTitle( _( 'Choose Data Presentation' ), '', false, '' ) .'<hr /></td></tr>';
-		// Teacher.
-		$return .= '<td><label><input type="checkbox" name="elements[teacher]" value="Y" checked /> ' .
-		_( 'Include Home Room Teacher Name' ) . '</label></td>';
-
-		// Comments.
-		$return .= '<td><label><input type="checkbox" name="elements[comments]" value="Y" checked /> ' .
-		_( 'Include Subject Comments' ) . '</label></td>';
-
-		
-
-		// Percents.
-		$return .= '<td colspan="2"><label><input type="checkbox" name="elements[percents]" value="Y" checked> ' .
-		_( 'Percents Instead of Letter Grade (Use Grades 3 - 8)' ) . '</label></td>';
-
-		$return .= '</tr><tr class="st">';
-// Percents.
-		$return .= '<td colspan="4"><label><input type="checkbox" name="elements[general_average]" value="Y" checked> ' .
-		_( 'Include General Average (Use Grades 3- 8)' ) . '</label></td>';
-		
-$return .= '</tr><tr class="st">';
-		// Add Min. and Max. Grades.
-		/*$return .= '<td><label><input type="checkbox" name="elements[minmax_grades]" value="Y"> ' .
-		_( 'Min. and Max. Grades' ) . '</label></td>'; */
-
-		
-		// Credits.
-	/*	$return .= '<td><label><input type="checkbox" name="elements[credits]" value="Y"> ' .
-		_( 'Credits' ) . '</label></td>'; */
-
-		//$return .= '</tr><tr class="st">';
-
-		$return .= '<tr><td colspan="4"><br>' . FormatInputTitle( _( 'Attendance Information To Include' ), '', false, '' ) .'<hr /></td></tr>';
-
-
-		$return .= '<tr>';
-		// Year-to-date Daily Absences.
-		$return .= '<td><label><input type="checkbox" name="elements[ytd_absences]" value="Y" checked /> ' .
-		_( 'Include Attendance Codes YTD' ) . '</label>';
-
-		$return .= '<BR>';
-
-		$return .= '<label><input type="checkbox" name="elements[mp_absences]" value="Y"' .
-		( GetMP( UserMP(), 'SORT_ORDER' ) != 1 ? ' checked' : '' ) . ' /> ' .
-		_( 'Include Attendance Codes Per Marking Period' ) . '</label></td>';
-
-$return .= '<td colspan="3">';
-
-		// Other Attendance Year-to-date.
-$bob= '';
-$return .= '<table><tr>';
-		$return .= '<td style="vertical-align: top;"><B>ABSENT</B><br>
-		<input type="radio" id="absentSummary" name="absentType" value="absentSummary" checked>
-		<label for="absentSummary">Summary</label><br><br>
-		<input type="radio" id="absentSubcategory" name="absentType" value="absentDetail">
-		<label for="absentSubcategory">SubCategory</label><br>';
-
-		foreach ( (array) $other_attendance_codes as $code )
-		{
-			
-			if($code[1]['STATE_CODE'] != 'P' ){
-			$bob .= '<input type="checkbox" name="ytdAbsent[]" value="' . $code[1]['ID'] . 
-			'_' . $code[1]['TITLE'] . '">' . $code[1]['TITLE'] . '<br>';
-			}
-			
-		}
-
-$return .= $bob;
-$bob= '';
-
-		$return .= '</td>';
-		$return .= '<td style="vertical-align: top;">';
-
-
-		$return .= '<B>PRESENT</B><br>
-		<input type="radio" id="summary" name="presentType" value="presentSummary">
-		<label for="presentSummary">Summary</label><br><br>
-		<input type="radio" id="subcategory" name="presentType" value="presentDetail" checked>
-		<label for="presentSubcategory">SubCategory</label><br>';
-
-		foreach ( (array) $other_attendance_codes as $code )
-		{
-			//Tardy is a nightmare and recorded wrong in the database.
-			// No time to rewrite the Day Defects of Tardy, Left Early , etc. that are
-			// Day defects but not impacting to present or not.
-			
-			if($code[1]['STATE_CODE'] == 'P' && $code[1]['TITLE'] != 'Tardy' ){
-				if(strtoupper($code[1]['TITLE']) == 'PRESENT'){
-				$titleTmp = $code[1]['TITLE'] . ' + Tardy';
-			}else{
-				$titleTmp = $code[1]['TITLE'];
-			}
-				$bob .= '<input type="checkbox" name="ytdPresent[]" value="' . $code[1]['ID'] . 
-				'_' . $code[1]['TITLE'] . '" checked>' . $titleTmp . '<br>';
-			}
-			
-		}
-
-
-		
-$return .= $bob;
-$bob= '';
-
-$return .= '</td>';
-		$return .= '<td style="vertical-align: top;">';
-
-		$return .= '<b>Other Included Details</b><br>';
-		foreach ( (array) $other_attendance_codes as $code )
-		{
-			//Tardy is a nightmare and recorded wrong in the database.
-			// No time to rewrite the Day Defects of Tardy, Left Early , etc. that are
-			// Day defects but not impacting to present or not.
-			
-			if($code[1]['TITLE'] == 'Tardy' ){
-				$titleTmp = $code[1]['TITLE'];
-			
-				$bob .= '<input type="checkbox" name="ytdTardy[]" value="' . $code[1]['ID'] . 
-				'_' . $code[1]['TITLE'] . '" checked>' . $titleTmp . '<br>';
-			}
-			
-		}
-		
-$return .= $bob;
-$bob= '';
-$return .= '</td></tr></table>';
-
-$return .= '</td></tr>';
-		
-		
-
-		$return .= '<tr><td colspan="4"><br>' . FormatInputTitle( _( 'Course Data Presentation' ), '', false, '' ) .'<hr /></td></tr>';
-//Should we include a grid that has All periods even if they have not happened.
-	$return .= '<tr><td colspan="4"><label><input type="checkbox" name="elements[all_periods]" value="Y" checked /> ' . _( 'Include All Marking Periods In Grid Headers' ) . '</label></td>';
-
-	$return .= '</tr>';
-
-	$return .= '<tr><td><label><input type="checkbox" name="elements[subject_teacher]" value="Y" /> ' . _( 'Include Subject Teacher Name with Subject' ) . '</label></td>';
-
-	$return .= '<td colspan="3"><label>' . _( '   How Many Subjects Fit on First Page (Use 4 for Middle School):' ) . '</label><select name="courses_firstpage" id="courses_firstpage">';
-
-	for ($i = 0; $i <11; $i++ )
-		{
-			$return .= '<option value="'  . $i . '">' . $i . '</option>';
-		}
-
-		$return .= '</select></td>';
-
-		$return .= '</tr><tr>';
-
-		$return .= '<td><label>' . _( '   Pick a Main Layout Format (ext .MAIN) :' ). '</label>';
-		$return .= '<select name="main_template" id="main_template">';
-
-			$templates = findTemplates($templateDirectory,'MAIN.html');
-
-					foreach($templates as $file) {
-						$basefile = basename($file);
-					    $return .= '<option value="'  . $file . '">' . $basefile . '</option>';
-					}
-
-		$return .= '</select></td>';
-
-		$return .= '<td><label>' . _( '   Pick a Course Format (.COURSE):' ). '</label>';
-		$return .= '<select name="course_template" id="course_template">';
-
-			$templates = findTemplates($templateDirectory,'COURSE.html');
-
-					foreach($templates as $file) {
-						$basefile = basename($file);
-					    $return .= '<option value="'  . $file . '">' . $basefile . '</option>';
-					}
-
-		$return .= '</select></td>';
-
-
-		$return .= '<td><label>' . _( '   Pick an Attendance Format (.ATTENDANCE):' ). '</label>';
-		$return .= '<select name="attendance_template" id="attendance_template">';
-
-			$templates = findTemplates($templateDirectory,'ATTENDANCE.html');
-
-					foreach($templates as $file) {
-						$basefile = basename($file);
-					    $return .= '<option value="'  . $file . '">' . $basefile . '</option>';
-					}
-
-		$return .= '</select></td>';
-
-		$return .= '</tr><tr class="st">';
-
-		// Do we want an honors certiicate 
-		$return .= '<tr><td><label><input type="checkbox" name="elements[honors_certificate]" value="Y" checked/> ' . _( 'Include Honors Certificate -- Middle School Only' ) . '</label></td>';
-
-
-		//Which honors certificate format
-		$return .= '<td><label>' . _( '   Pick HONORS Certificate (.HONORS):' ). '</label>';
-				$return .= '<select name="honors_template" id="honors_template">';
-
-					$templates = findTemplates($templateDirectory,'HONORS.html');
-
-							foreach($templates as $file) {
-								$basefile = basename($file);
-							    $return .= '<option value="'  . $file . '">' . $basefile . '</option>';
-							}
-
-		$return .= '</select></td>';
-
-
-
-
-		$return .= '</tr><tr class="st">';
-
-
-		if ( $_REQUEST['modname'] !== 'CustomReportCard/FinalGrades.php' )
-		{
-			$return .= '</tr><tr class="st">';
-
-			// Add GPA or Total row.
-			$gpa_or_total_options = array(
-				'gpa' => _( 'GPA' ),
-				'total' => _( 'Total' ),
-			);
-
-			if ( User( 'PROFILE' ) !== 'admin' )
-			{
-				$_ROSARIO['allow_edit'] = true;
-			}
-
-
-/* Not doing CLASS RANK
-			$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
-		
-*/
-		}
-		$return .= '</tr></table></td></tr>';
-
-		
-
-		// Get the title instead of the short marking period name.
-		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
-			FROM SCHOOL_MARKING_PERIODS
-			WHERE MP='QTR'
-			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
-
-		// Marking Periods.
-		$return .= '<tr class="st"><td colspan="3"><hr /><table class="cellpadding-5">';
-
-		foreach ( (array) $mps_RET as $sem => $quarters )
-		{
-			$return .= '<tr class="st">';
-
-			foreach ( (array) $quarters as $qtr )
-			{
-				$pro = GetChildrenMP( 'PRO', $qtr['MARKING_PERIOD_ID'] );
-
-				if ( $pro )
-				{
-					$pros = explode( ',', str_replace( "'", '', $pro ) );
-
-					foreach ( (array) $pros as $pro )
-					{
-						if ( GetMP( $pro, 'DOES_GRADES' ) === 'Y' )
-						{
-							$return .= '<td><label>
-								<input type="checkbox" name="mp_arr[]" value="' . $pro . '" /> ' .
-							GetMP( $pro, 'TITLE' ) . '</label></td>';
-						}
-					}
-				}
-
-
-                       /* Defaulted all periods to checked */
-				$return .= '<td><label>
-					<input type="checkbox" name="mp_arr[]" value="' . $qtr['MARKING_PERIOD_ID'] . '" /> ' .
-					$qtr['TITLE'] . '</label></td>';
-			}
-
-			if ( GetMP( $sem, 'DOES_GRADES' ) === 'Y' )
-			{
-				$return .= '<td><label>
-					<input type="checkbox" name="mp_arr[]" value="' . $sem . '" /> ' .
-				GetMP( $sem, 'TITLE' ) . '</label></td>';
-			}
-
-			$return .= '</tr>';
-		}
-
-		if ( $sem )
-		{
-			$fy = GetParentMP( 'FY', $sem );
-
-			$return .= '<tr>';
-
-			if ( GetMP( $fy, 'DOES_GRADES' ) === 'Y' )
-			{
-				$return .= '<td><label>
-					<input type="checkbox" name="mp_arr[]" value="' . $fy . '" /> ' .
-				GetMP( $fy, 'TITLE' ) . '</label></td>';
-			}
-
-			$return .= '</tr>';
-		}
-
-		$return .= '</table>' .
-			FormatInputTitle( _( 'Select All Marking Periods Included "As Of Report Card"' ), '', false, '' ) .
-			'<hr /></td></tr>';
-
-		if ( $mailing_labels )
-		{
-			// Mailing Labels.
-			Widgets( 'mailing_labels' );
-		}
-
-		if ( ! empty( $extra['search'] ) )
-		{
-			$return .= '<tr><td><table>' . $extra['search'] . '</table></td></tr>';
-		}
-
-		$extra['search'] = '';
-
-		$return .= '</table>';
-
-
-
-
-  $return .= $html;
-
-
-
-		return $return;
-	}
-}
 
 if ( ! function_exists( 'ReportCardsGenerate' ) )
 {
@@ -413,7 +40,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 		$reportcardFormat = file_get_contents($_REQUEST['main_template']);//file_get_contents('modules/CustomReportCard/includes/header.html');
 		$mainCourseGrid = file_get_contents($_REQUEST['course_template']);
 		$attendanceCourseGrid = file_get_contents($_REQUEST['attendance_template']);
-		$marksRowsGrid = file_get_contents('modules/CustomReportCard/includes/marksrows.html');
+		$AttendancemarkRowsGrid = file_get_contents('modules/CustomReportCard/includes/Attendance.DEFAULTMARKROW.html');
+		$marksRowsGrid = file_get_contents($_REQUEST['markrows_template']);
+		//$marksRowsGrid = file_get_contents('modules/CustomReportCard/includes/marksrows.html');
 		$firstHonorsCertificate = file_get_contents('modules/CustomReportCard/includes/middleSchool.HONORS.html');
 		$secondHonorsCertificate = file_get_contents('modules/CustomReportCard/includes/middleSchool.SECONDHONORS.html');
 
@@ -509,6 +138,8 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
           	$homeRoomInfo = '';
           	$homeRoomTeacher = '';
           	$reportCardHeader ='';
+          	//Determine if they want 3 Sections: Grouping, Subject & Subject Skills.
+          	$tiers = $_REQUEST['elements']['tiers'];
           	
 			/* Get the Scheduled Classes by Each Student from the Specialized View. This will not 
 			   have grades in it but has all other information */
@@ -518,19 +149,44 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
 			  $homeRoomTeacher = $homeRoomInfo[1]['TEACHERSALUTATION'] . ' ' .  $homeRoomInfo[1]['TEACHERLASTNAME'];
 
 
-			  $subjectMain = DBGet("select Distinct title, subject, student_id, reportcardorder, 
-			  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
-			  	course_period_id, school_id, credit_hours, syear from \"studentScheduleReportCard\" where title <> 'Attendance' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Title Not Like '%Skills%' Order by reportcardorder");
 
-			  $subjectMainLastCourse = count($subjectMain);
-
-	
-			 $subjectSkillsStandards = DBGet("select title, subject, subjectskill, student_id, reportcardorder, 
-			  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
-			  	course_period_id, marking_period_id, syear, school_id 
-			  	from \"studentScheduleReportCard\" where title <> 'Attendance' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Title Like '%Skills%' Order by subjectskill");
+			  //We need to modify the view used based on Tiered (3 levels vs Subject & Skill Only)
+			  if($tiers == 'Y'){
 
 
+			  	$subjectGroup = DBGet("select Distinct grouping, student_id, reportcardorder, 
+				  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
+				  	course_period_id, school_id, credit_hours, syear from \"tieredStudentScheduleReportCard\" where Upper(subject) <> 'ATTENDANCE' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Upper(subject) Not Like '%SKILLS%' Order by reportcardorder");
+
+			  	$subjectMain = DBGet("select Distinct grouping, subject, student_id, reportcardorder, 
+				  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
+				  	course_period_id, school_id, credit_hours, syear from \"tieredStudentScheduleReportCard\" where Upper(subject) <> 'ATTENDANCE' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Upper(subject) Not Like '%SKILLS%' Order by reportcardorder");
+
+				  $subjectMainLastCourse = count($subjectMain);
+
+				  //Get the Subjects Period Information (Has the Course in it as well for tiers)
+				 $subjectSkillsStandards = DBGet("select grouping, subject, subjectskill, student_id, reportcardorder, 
+				  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
+				  	course_period_id, marking_period_id, syear, school_id 
+				  	from \"tieredStudentScheduleReportCard\" where Upper(subject) <> 'ATTENDANCE' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Upper(subject) Like '%SKILLS%' Order by grouping, subject,subjectskill");
+
+			  }
+			  else{
+			  //Get the Subject
+				  $subjectMain = DBGet("select Distinct title, subject, student_id, reportcardorder, 
+				  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
+				  	course_period_id, school_id, credit_hours, syear from \"studentScheduleReportCard\" where title <> 'Attendance' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Upper(Title) Not Like '%SKILLS%' Order by reportcardorder");
+
+				  $subjectMainLastCourse = count($subjectMain);
+
+
+				//Get the Subjects Period Information (Has the Course in it as well for tiers)
+				 $subjectSkillsStandards = DBGet("select title, subject, subjectskill, student_id, reportcardorder, 
+				  	concat(teachersalutation, ' ',teacherfirstname, ' ', teacherlastname) as subjectTeacher,
+				  	course_period_id, marking_period_id, syear, school_id 
+				  	from \"studentScheduleReportCard\" where title <> 'Attendance' AND student_id = " .$student_id . " AND SYEAR = " .UserSyear() . " And Upper(Title) Like '%SKILLS%' Order by subjectskill");
+				}
+		   
 			// Course Periods.
 			/* This is where we cycle through other Attendance Codes to see what we want to 
 				   include or not include
@@ -555,7 +211,7 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
 					// We are doing 1 line of Absent without Details
 					//print("<pre>".print_r($_REQUEST["absentType"],true)."</pre>");
 					
-					$attendanceData .= GridSkillReplacement($marksRowsGrid, 'ABSENT');
+					$attendanceData .= GridSkillReplacement($AttendancemarkRowsGrid, 'ABSENT');
 
 					$attendanceData = PopulateAbsentPresent($attendanceCodeID, $mp_array,$attendanceData,$st_list,$student_id,'ABSENT','SUMMARY',$YTDFlag);
 								
@@ -568,7 +224,7 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
 						$attendanceTitle = explode("_",$attendanceCode);
 						$attendanceCodeID = $attendanceTitle[0];
 
-						$attendanceData .= GridSkillReplacement($marksRowsGrid, $attendanceTitle[1]);
+						$attendanceData .= GridSkillReplacement($AttendancemarkRowsGrid, $attendanceTitle[1]);
 
 						$attendanceData = PopulateAbsentPresent($attendanceCodeID, $mp_array,$attendanceData,$st_list,$student_id,'ABSENT',$attendanceTitle[1],$YTDFlag);
 						
@@ -580,7 +236,7 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
 				if(strtoupper($_REQUEST['presentType']) == 'PRESENTSUMMARY'){
 					// We are doing 1 line of Absent without Details
 			
-					$attendanceData .= GridSkillReplacement($marksRowsGrid, 'PRESENT');
+					$attendanceData .= GridSkillReplacement($AttendancemarkRowsGrid, 'PRESENT');
 
 
 					$attendanceData = PopulateAbsentPresent($attendanceCodeID, $mp_array,$attendanceData,$st_list,$student_id,'PRESENT','SUMMARY',$YTDFlag);
@@ -593,7 +249,7 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
 						$attendanceTitle = explode("_",$attendanceCode);
 						$attendanceCodeID = $attendanceTitle[0];
 
-						$attendanceData .= GridSkillReplacement($marksRowsGrid, $attendanceTitle[1]);
+						$attendanceData .= GridSkillReplacement($AttendancemarkRowsGrid, $attendanceTitle[1]);
 
 						$attendanceData = PopulateAbsentPresent($attendanceCodeID, $mp_array,$attendanceData,$st_list,$student_id,'PRESENT',$attendanceTitle[1],$YTDFlag);				
 					}
@@ -606,7 +262,7 @@ print("<pre>".print_r($_REQUEST['ytdTardy'],true)."</pre>");
 						$attendanceTitle = explode("_",$attendanceCode);
 						$attendanceCodeID = $attendanceTitle[0];
 
-						$attendanceData .= GridSkillReplacement($marksRowsGrid, $attendanceTitle[1]);
+						$attendanceData .= GridSkillReplacement($AttendancemarkRowsGrid, $attendanceTitle[1]);
 
 						$attendanceData = PopulateAbsentPresent($attendanceCodeID, $mp_array,$attendanceData,$st_list,$student_id,'PRESENT',$attendanceTitle[1],$YTDFlag);
 				}
@@ -711,21 +367,24 @@ echo '<bookmark content="' . $student['FULL_NAME'] . '"/>';
 				 $reportCardHeader = GridReplacement('%SchoolDistrict%',$reportCardHeader,$schoolDistrict);
 				 $reportCardHeader = GridReplacement('%Teacher%',$reportCardHeader,$homeRoomTeacher);
 
-				 /* This next step only sets up the GRID Layout with Subject and Skills/Standards.. It will not
-				    populate the actual Grades. They will be matched up in a later step */
+				 /* This next step only sets up the GRID Layout with Subject and Skills/Standards.. It will not populate the actual Grades. They will be matched up in a later step */
 				    //TTD: Adjust these to input
+		
 				    $startCourse = 0;
-				    $endCourse = $_REQUEST['courses_firstpage'];
-				$subjectGrid = courseTables($subjectMain,$subjectSkillsStandards,$mainCourseGrid,$marksRowsGrid,$mp_array,$startCourse, $endCourse,$studentHonors,$reportCardHeader);
+				    //Needs to be lesser of $_REQUEST['courses_firstpage'] or $subjectMainLastCourse
+
+				    $endCourse = min($_REQUEST['courses_firstpage'],$subjectMainLastCourse);
+				$subjectGrid = courseTables($subjectMain,$subjectSkillsStandards,$mainCourseGrid,$marksRowsGrid,$mp_array,$startCourse, $endCourse,$studentHonors,$reportCardHeader,$tiers);
 				$reportCardHeader = GridReplacement('%PAGE1_CLASSES%',$reportCardHeader,$subjectGrid);
 					
 
 				//Populate a Second Page Grid
 				   $startCourse = $_REQUEST['courses_firstpage'];
 				    $endCourse = $subjectMainLastCourse;
-				$subjectGrid = courseTables($subjectMain,$subjectSkillsStandards,$mainCourseGrid,$marksRowsGrid,$mp_array,$startCourse, $endCourse,$studentHonors,$reportCardHeader);
-				$reportCardHeader = GridReplacement('%PAGE2_CLASSES%',$reportCardHeader,$subjectGrid);
-
+				if($subjectMainLastCourse > $_REQUEST['courses_firstpage']){
+					$subjectGrid = courseTables($subjectMain,$subjectSkillsStandards,$mainCourseGrid,$marksRowsGrid,$mp_array,$startCourse, $endCourse,$studentHonors,$reportCardHeader,$tiers);
+					$reportCardHeader = GridReplacement('%PAGE2_CLASSES%',$reportCardHeader,$subjectGrid);
+				}
 
 				$attendanceGrid = GridReplacement('%COURSEMARKS%',$attendanceGrid,$attendanceData);
 				// Change the last column color
@@ -938,7 +597,7 @@ function studentGeneralAverage(&$student_id,&$markingPeriods,$gridFormat){
 * @param marking periods
 * get_studentgrade takes schoolid,studentid,schoolyear,courseid,marking period
 **/
-function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$marksRowsGrid,&$markingPeriods,$startCourse,$endCourse,&$studentHonors,&$reportCardHeader)
+function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$marksRowsGrid,&$markingPeriods,$startCourse,$endCourse,&$studentHonors,&$reportCardHeader,$tiers)
 {
 	$subjectGrid = '';
 	// Printing all the keys and values one by one
@@ -953,6 +612,7 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 					for($i = $startCourse; $i < $endCourse; $i++) {
 						// Check to see if the Teacher should be included next to the subject name
 						$tmpSubject =  strtoupper($subjectMain[$keys[$i]]['SUBJECT']);
+						$tmpCourse = strtoupper($subjectMain[$keys[$i]]['TITLE']);
 
 						//Add teachers name to subject
 						if ( isset( $_REQUEST['elements']['subject_teacher'] ) 
@@ -962,21 +622,33 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 
 						//Make sure the subjectMain query pulls enough data fields to populate the 
 						// get_studentgrade function
-						 
-
+		
 						//put the subject grid aside if the tmpSubject is Christian Values
 						if(strtoupper($tmpSubject) == 'CHRISTIAN VALUES'){
 							$putAsideSubjectGrid = $subjectGrid;
 							$subjectGrid = GridReplacement('%SUBJECT%',$mainCourseGrid, '');
 						}else{
-							$subjectGrid = $subjectGrid . GridReplacement('%SUBJECT%',$mainCourseGrid, trim($tmpSubject));
+							if(strtoupper($subjectMain[$keys[$i]]['GROUPING']) == 'SUCCESSFUL LEARNER'){
+							$putAsideSubjectGrid = $subjectGrid;
+							$subjectGrid = '';
+							}
+
+								if($tiers == 'Y'){
+									if(strtoupper($subjectMain[$keys[$i]]['GROUPING']) <> $tmpSubject){
+									$subjectGrid = $subjectGrid . GridReplacement('%SUBJECT%',$mainCourseGrid, strtoupper($subjectMain[$keys[$i]]['GROUPING']) .' - ' . trim($tmpSubject));
+									}else{
+										$subjectGrid = $subjectGrid .  GridReplacement('%SUBJECT%',$mainCourseGrid, strtoupper($subjectMain[$keys[$i]]['GROUPING']));
+									}
+								}else{
+									//This is the One used 98% of the time.
+									$subjectGrid = $subjectGrid . GridReplacement('%SUBJECT%',$mainCourseGrid, trim($tmpSubject));
+								}
+
 						}
 
-						  
+						$ia =0;
 
-						  $ia =0;
-
-								foreach((array) $markingPeriods as $mp){
+						foreach((array) $markingPeriods as $mp){
 									$testMark = DBGet("SELECT * From get_studentgrade(" . 
 							      	$subjectMain[$keys[$i]]['SCHOOL_ID'] . "," . 
 							      	$subjectMain[$keys[$i]]['STUDENT_ID']  . "," .
@@ -984,51 +656,56 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 							      	$subjectMain[$keys[$i]]['COURSE_PERIOD_ID'] . ",'" . $mp . "')");			     
 
 
-					if($_REQUEST['elements']['percents'] == 'Y' && $subjectMain[$keys[$i]]['CREDIT_HOURS'] >= 1){
-					
-					$reportCardGrade =round(trim($testMark[1]['GRADE_PERCENT']));
+							if($_REQUEST['elements']['percents'] == 'Y' && $subjectMain[$keys[$i]]['CREDIT_HOURS'] >= 1){
+							
+								$reportCardGrade =round(trim($testMark[1]['GRADE_PERCENT']));
 
 
-						//In our world under 69 is an F and no Mark at all so
-						if($reportCardGrade < 69 && $reportCardGrade){
-							$reportCardGrade = '<p style="color:red;">F</p>';
-						}elseif($reportCardGrade == 0){
-							$reportCardGrade = '';  // Just means not populated
-						}elseif($reportCardGrade >= 92){
-							$reportCardGrade = '<B>' . $reportCardGrade .'</B>';
-						}else{
-							$reportCardGrade = $reportCardGrade;
-						}
+								//In our world under 69 is an F and no Mark at all so
+								if($reportCardGrade < 69 && $reportCardGrade){
+									$reportCardGrade = '<p style="color:red;">F</p>';
+								}elseif($reportCardGrade == 0){
+									$reportCardGrade = '';  // Just means not populated
+								}elseif($reportCardGrade >= 92){
+									$reportCardGrade = '<B>' . $reportCardGrade .'</B>';
+								}else{
+									$reportCardGrade = $reportCardGrade;
+								}
 
 
-						//One more fun thing, does the student have honors?
-						// update the variable in the main subroutine student honors which is passed by
-						// reference
-						if($mp == $last_mp){
-							if(round(trim($testMark[1]['GRADE_PERCENT'])) < 92 &&
-						        round(trim($testMark[1]['GRADE_PERCENT'])) >= 85){
-								//not getting first honors
-								$studentHonors += 1;
-							}elseif(round(trim($testMark[1]['GRADE_PERCENT'])) < 85){
-								// not getting second honors
+								//One more fun thing, does the student have honors?
+								// update the variable in the main subroutine student honors which is passed by
+								// reference
+								if($mp == $last_mp){
+									if(round(trim($testMark[1]['GRADE_PERCENT'])) < 92 &&
+								        round(trim($testMark[1]['GRADE_PERCENT'])) >= 85){
+										//not getting first honors
+										$studentHonors += 1;
+									}elseif(round(trim($testMark[1]['GRADE_PERCENT'])) < 85){
+										// not getting second honors
+										$studentHonors += 100;
+									}else{}
+								}
+
+
+							}else{
+
+								$reportCardGrade = $testMark[1]['GRADE_LETTER'];
+
+								if($reportCardGrade == 'F' && $reportCardGrade){
+									$reportCardGrade = '<p style="color:red;">F</p>';
+									//You cannot get honors
 								$studentHonors += 100;
-							}else{}
-						}
+								}
+
+							}//end if marks are Percents.
 
 
-					}else{
-
-						$reportCardGrade = $testMark[1]['GRADE_LETTER'];
-
-						if($reportCardGrade == 'F' && $reportCardGrade){
-							$reportCardGrade = '<p style="color:red;">F</p>';
-							//You cannot get honors
-						$studentHonors += 100;
-						}
-
-					}//end if marks are Percents.
-
+					//There may be one, if not still remove the TEMPLATE Holder
 					$subjectGrid = GridReplacement('%T' . $ia . '%',$subjectGrid,$reportCardGrade);
+//echo ' The tiers are ' . $tiers;
+				
+					
 								$ia++;
 								} // end of for each population of the Marks on Standards / Skills
 	//Clean up remaining Unused Periods
@@ -1046,26 +723,107 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 					   /* One of the tricks we did was to create a COURSE called SUBJECT SKILLS for each
 					       subject so that they could be pulled easily... We did not give them a PERIOD but did
 					       give them a MARKED designation  -- Ran this query once when we did SUBJECT*/
+					    //PERIODS
 					       $array = $subjectSkillsStandards;
-					       $searchFor = $subjectMain[$keys[$i]]['SUBJECT'];
-					       $keyName = 'SUBJECT';
-					       // must be on php 5.3 or better
-					       $filteredArray = 
+
+					       //Because of tiers this is an IF
+					       if($tiers == 'Y'){
+					       	if(strtoupper($subjectMain[$keys[$i]]['GROUPING']) <> $tmpSubject){
+					       		$searchFor =  strtoupper($subjectMain[$keys[$i]]['SUBJECT']) . ' SKILLS';
+
+					       		$keyName = 'SUBJECT';
+					       		// must be on php 5.3 or better
+					       		$filteredArray = 
+								array_filter($array, function($element) use($searchFor){
+								  return isset($element['SUBJECT']) && strtoupper($element['SUBJECT']) == $searchFor;
+								});
+					       }else{
+					       	//There is no Skill for the GROUPING in the Subject
+					       	$searchFor =  strtoupper($subjectMain[$keys[$i]]['GROUPING']);
+					       		$keyName = 'GROUPING';
+					       		// must be on php 5.3 or better
+					       		$filteredArray = 
+								array_filter($array, function($element) use($searchFor){
+								  return isset($element['GROUPING']) && strtoupper($element['GROUPING']) == $searchFor;
+								  });
+					       }
+					       		
+
+					       }else{
+
+					       		$searchFor = $subjectMain[$keys[$i]]['SUBJECT'];
+					       		$keyName = 'SUBJECT';
+					       		// must be on php 5.3 or better
+					       		$filteredArray = 
 								array_filter($array, function($element) use($searchFor){
 								  return isset($element['SUBJECT']) && $element['SUBJECT'] == $searchFor;
 								});
+					       
+					       // You need to refilter because of the Tiers
+								
+							}
+							$keysSkills = array_keys($filteredArray);
+		/*					
 
+							if($tiers == 'Y'){
+
+								$subjectGrid = GridReplacement('%COURSEMARKS%',$subjectGrid,'');
+
+								$subjectGrid = $subjectGrid . GridReplacement('%SUBJECT%',$mainCourseGrid, trim($filteredArray[$keysSkills[$i]]['SUBJECT']));
+								$subjectGrid  = GridReplacement('/%T(.*?)%/',$subjectGrid ,'   ',2);
+
+								$subjectGrid  = GridReplacement('/%YT(.*?)%/',$subjectGrid ,'   ',2);
+
+
+					     
+
+								$searchFor = $filteredArray[$keysSkills[$i]]['SUBJECT'];
+					       		$keyName = 'SUBJECT';
+					       		// must be on php 5.3 or better
+					       		$filteredArray = 
+								array_filter($filteredArray, function($element) use($searchFor){
+								  return isset($element['SUBJECT']) && $element['SUBJECT'] == $searchFor;
+								});
+
+							}
+*/
 							$skillsStandardsData = '';
 							
 							$holdToLastRow = '';
 							$keysSkills = array_keys($filteredArray);
+
+
+//echo '<pre>' . print_r($filteredArray,true) . '</pre>';
+
 							for($iS = 0; $iS < count($filteredArray); $iS++) {
 								
 								//Filtered Array has the subject's standard/skills
 								//replace the standard/skill template variable.
 								$skillName = trim($filteredArray[$keysSkills[$iS]]['SUBJECTSKILL']);
-							$skillsStandardDataOneRow = GridSkillReplacement($marksRowsGrid, $skillName);
 
+								if($tiers == 'Y'){
+									//Group, Subject & Skill
+									$tierTwo = trim($filteredArray[$keysSkills[$iS]]['SUBJECT']);
+
+									//Remove Skills and see if the tierTwo and Skillname are the same
+									$tierTwo = str_replace(' SKILLS', '', strtoupper($tierTwo));
+
+									if(strtoupper($subjectMain[$keys[$i]]['GROUPING']) == $tierTwo ||
+											trim($tmpSubject) == $tierTwo){
+											$skillsStandardDataOneRow = GridSkillReplacement($marksRowsGrid, $skillName);
+										}else{
+									
+										$skillsStandardDataOneRow = GridSkillReplacement($marksRowsGrid, $tierTwo . ': ' . $skillName);
+									
+									
+									
+										}
+									
+								}else{
+									//Only Subject and Skill
+								$skillsStandardDataOneRow = GridSkillReplacement($marksRowsGrid, $skillName);
+
+								}
 								//Populate the Skills $filteredArray[$keysSkills[$iS]]Row & build up the rows
 								// for each marking period taken
 							$ii =0;
@@ -1077,7 +835,7 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 							      	$filteredArray[$keysSkills[$iS]]['SYEAR'] . "," . 
 							      	$filteredArray[$keysSkills[$iS]]['COURSE_PERIOD_ID'] . ",'" . $mp . "')");
 						     
-							
+//echo '<pre>' . print_r($testMark,true) . '</pre>' . 'The mp is ' . $mp;							
 
 						     if($testMark[1]['GRADE_LETTER'] == 'Check'){
 						     	$letterGrade = '<img src="modules/CustomReportCard/img/checkmark.png" style="width:13px;height:13px;"></img>';
@@ -1097,13 +855,13 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 							$skillsStandardDataOneRow  = GridReplacement('/%(.*?)%/',$skillsStandardDataOneRow ,' ',2);
 
 
-							//Add the Single Row together to make a larger Grid with all skill standards
-							if(strToUpper($skillName) == 'EFFORT' || strToUpper($skillName) == 'CONDUCT'){
-								$holdToLastRow = $holdToLastRow .  $skillsStandardDataOneRow;
+								//Add the Single Row together to make a larger Grid with all skill standards
+								if(strToUpper($skillName) == 'EFFORT' || strToUpper($skillName) == 'CONDUCT'){
+									$holdToLastRow = $holdToLastRow .  $skillsStandardDataOneRow;
 
-							}else{
-								$skillsStandardsData = $skillsStandardsData . $skillsStandardDataOneRow;
-							}
+								}else{
+									$skillsStandardsData = $skillsStandardsData . $skillsStandardDataOneRow;
+								}
 						   
 								
 							
@@ -1115,13 +873,21 @@ function courseTables(&$subjectMain,&$subjectSkillsStandards,&$mainCourseGrid,&$
 							//Merge skillstandards with Subject Header.	
 
 							//Special Case is Christian Values target %CHRISITAN_VALUES%
-							if(strtoupper($tmpSubject) == 'CHRISTIAN VALUES'){
+							if(strtoupper($tmpSubject) == 'CHRISTIAN VALUES' ){
 								$subjectGrid = GridReplacement('%COURSEMARKS%',$subjectGrid,$skillsStandardsData);
 
 								$reportCardHeader = GridReplacement('%CHRISTIAN_VALUES%',$reportCardHeader,$subjectGrid);
 
 								//return to the previous interuption.
 								 $subjectGrid = $putAsideSubjectGrid;
+							}elseif(strtoupper($subjectMain[$keys[$i]]['GROUPING']) == 'SUCCESSFUL LEARNER'){
+								$subjectGrid = GridReplacement('%COURSEMARKS%',$subjectGrid,$skillsStandardsData);
+
+								$reportCardHeader = GridReplacement('%SUCCESSFUL LEARNER%',$reportCardHeader,$subjectGrid .'%SUCCESSFUL LEARNER%');
+
+								//return to the previous interuption.
+								 $subjectGrid = $putAsideSubjectGrid;
+
 							}else{
 							$subjectGrid = GridReplacement('%COURSEMARKS%',$subjectGrid,$skillsStandardsData);
 							}

@@ -40,6 +40,20 @@ WHERE NOT EXISTS (SELECT profile_id
     WHERE modname='CustomReportCard/ReportCardsEmailParents.php'
     AND profile_id=1);
 
+/*Setup the configuration Screen*/
+INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
+SELECT 1, 'CustomReportCard/Setup.php', 'Y', 'Y'
+WHERE NOT EXISTS (SELECT profile_id
+    FROM profile_exceptions
+    WHERE modname='CustomReportCard/Setup.php'
+    AND profile_id=1);
+
+INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
+SELECT 1, 'CustomReportCard/Options.php', 'Y', 'Y'
+WHERE NOT EXISTS (SELECT profile_id
+    FROM profile_exceptions
+    WHERE modname='CustomReportCard/Options.php'
+    AND profile_id=1);
 
 
 /**
@@ -57,7 +71,7 @@ WHERE NOT EXISTS (SELECT profile_id
 
 
 INSERT INTO program_config (syear, school_id, program, title, value)
-SELECT sch.syear, sch.id, 'CustomReportCard', 'CustomReportCard_CONFIG', '5'
+SELECT sch.syear, sch.id, 'CustomReportCard', 'CustomReportCard_CONFIG', '1.0'
 FROM schools sch
 WHERE NOT EXISTS (SELECT title
     FROM program_config
@@ -67,11 +81,11 @@ WHERE NOT EXISTS (SELECT title
 
 */
 /* In Case of reinstall with new version */
-DROP VIEW "studentGeneralAverage" CASCADE;
-DROP VIEW "studentScheduleReportCard" CASCADE;
-DROP VIEW "active_students" CASCADE;
-DROP Function "get_schooldata" CASCADE;
-DROP VIEW "get_schooldata" CASCADE;
+DROP VIEW IF EXISTS "studentGeneralAverage" CASCADE;
+DROP VIEW IF EXISTS "studentScheduleReportCard" CASCADE;
+DROP VIEW IF EXISTS "active_students" CASCADE;
+DROP Function IF EXISTS "get_schooldata" CASCADE;
+DROP VIEW IF EXISTS "get_schooldata" CASCADE;
 
 /* Need more characters for the Skills */
 

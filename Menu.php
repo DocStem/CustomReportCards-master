@@ -22,5 +22,6 @@ $menu['CustomReportCard']['admin'] = array( // Admin menu.
 	'CustomReportCard/ReportCardsEmailParents.php' => dgettext( 'CustomReportCard', 'EMail Report Cards' ),
 	1 => _( 'Setup' ), // Add sub-menu 1 (only for admins).
 	'CustomReportCard/Setup.php' => _( 'Configuration' ), // Reuse existing translations: 'Configuration' exists under School module.
+	'CustomReportCard/Options.php' => dgettext( 'CustomReportCard', 'Options' ), // Reuse existing translations: 'Configuration' exists under School module.
 );
-
+ 

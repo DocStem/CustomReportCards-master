@@ -3,13 +3,15 @@ ini_set("memory_limit","2048M");
 // Should be included first, in case modfunc is Class Rank Calculate AJAX.
 require_once 'modules/CustomReportCard/includes/ClassRank.inc.php';
 require_once 'modules/CustomReportCard/includes/ReportCards.fnc.php';
+require_once 'modules/CustomReportCard/includes/ReportCardsHeader.fnc.php'; 
+
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Template.fnc.php';
 require_once 'ProgramFunctions/Substitutions.fnc.php';
 
 
-
+ 
 
 //Clean out the print directory
 // Folder path to be flushed 
@@ -28,7 +30,7 @@ foreach($files as $file) {
         unlink($file);  
 } 
 
-
+//This produces the OUTPUT
 switch($_REQUEST['modfunc']){
 	case 'save':
 		if ( isset( $_REQUEST['mp_arr'] )
@@ -48,9 +50,9 @@ switch($_REQUEST['modfunc']){
 
 
 
-				if ( $report_cards ){
+				//if ( $report_cards ){
 
-					print('<h1>Table of Report Card Contents</h1><br>');
+					//print('<h1>Table of Report Card Contents</h1><br>');
 					$i=0;
 					$files =array();
 
@@ -106,16 +108,16 @@ switch($_REQUEST['modfunc']){
 
 					foreach((array) $student_RET as $students){
 
-//error_log("strudents info " . print_r($students));
+
 					$report_card = $report_cards[ $students['STUDENT_ID'] ];
  
 
-							//Options for pdf -O is landscape
-								//$replacements = array('orientation' => 'landscape');
+							//Sometimes kids are missing from teh schedule or grades. We might want to know who
 
-								
-								
-								//$mpdf->Bookmark($students['STUDENT_ID']);
+						if($report_card == ''){
+							$report_card = '<p><span style="color:red;">Student Missing Grades or Schedules -- ID: ' . $students['STUDENT_ID'] . '<br> NAME: ' . $students['FULL_NAME'] . str_repeat("<BR>", 32) . '</p></span>';
+						} 
+
 
 
 								$files[$i] = dirname(__FILE__) . '/pdfreportcards/' . $students['STUDENT_ID'] .'.pdf';
@@ -124,6 +126,8 @@ switch($_REQUEST['modfunc']){
 									$mpdf->WriteHTML($report_card,\Mpdf\HTMLParserMode::DEFAULT_MODE,true,false);
 								}elseif($i == $lastRecord){
 									$mpdf->WriteHTML($report_card,\Mpdf\HTMLParserMode::DEFAULT_MODE,false,true);
+								}elseif($i == 0 && $i == $lastRecord){
+								  $mpdf->WriteHTML($report_card,\Mpdf\HTMLParserMode::DEFAULT_MODE,false,false);
 								}else{
 									$mpdf->WriteHTML($report_card,\Mpdf\HTMLParserMode::DEFAULT_MODE,true,true);
 								}
@@ -158,8 +162,8 @@ switch($_REQUEST['modfunc']){
 					//echo $report_cards_html;
 
 					//PDFStop( $handle );
-				}
-				else
+				//}
+			/*	else
 				{
 					BackPrompt(
 						sprintf(
@@ -168,7 +172,7 @@ switch($_REQUEST['modfunc']){
 						)
 					);
 					//echo 'NOT WORKING';
-				}
+				}*/
 			}
 			else
 			{
@@ -177,6 +181,7 @@ switch($_REQUEST['modfunc']){
 	   break;
 
 	default:
+	//Creates the INPUT FORM
 	//This follows the Grade Search but before Generation of Report Cards
 			DrawHeader( ProgramTitle() );
 
@@ -193,7 +198,7 @@ switch($_REQUEST['modfunc']){
 				$extra['extra_header_left'] = ReportCardsIncludeForm();
 
 				// @since 4.5 Add Report Cards header action hook.
-				do_action( 'CustomReportCard/ReportCards.php|header' );
+				do_action( 'CustomReportCard/ReportCardsHeader.php|header' );
 			}
 
 			$extra['new'] = true;
